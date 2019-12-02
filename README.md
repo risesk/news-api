@@ -2,7 +2,7 @@
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/risesk/news-api?label=version)]
 
 ##### Сcылка на сервер: 
-https://api.mestoapp.site
+https://api.mestoapp.site   
 http://84.201.131.4
 
 #### Описание

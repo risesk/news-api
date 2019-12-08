@@ -4,12 +4,13 @@ const User = require('../models/user');
 const { secretkey } = require('../middlewares/auth');
 const NotFoundError = require('../errors/not-found-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
+const errorMessages = require('../configurations/response-messages');
 
 const getUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователя с таким id не существует');
+        throw new NotFoundError(errorMessages.NO_USER_ERROR);
       }
       return res.send({ name: user.name, email: user.email });
     })
@@ -37,7 +38,7 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new UnauthorizedError('Такой пользователь уже есть'));
+        next(new UnauthorizedError(errorMessages.NON_UNIQUE_USER_ERROR));
       } else next(err);
     });
 };

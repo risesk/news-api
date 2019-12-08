@@ -1,14 +1,14 @@
 const Article = require('../models/article');
 const NotFoundError = require('../errors/not-found-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
-
+const errorMessages = require('../configurations/response-messages');
 
 const getArticles = (req, res, next) => {
   const owner = req.user._id;
   Article.find({ owner })
     .then((articles) => {
       if (articles.length === 0) {
-        throw new NotFoundError('Ещё нет ни одной статьи');
+        throw new NotFoundError(errorMessages.NO_ARTICLES_ERROR);
       }
       res.send(articles);
     })
@@ -45,9 +45,9 @@ const deleteArticle = (req, res, next) => {
   Article.findById(articleId)
     .then((article) => {
       if (!article) {
-        throw new NotFoundError('Такой статьи не существует');
+        throw new NotFoundError(errorMessages.NO_ARTICLE_ERROR);
       } else if (article.owner.toString() !== req.user._id) {
-        throw new UnauthorizedError('Недостаточно прав');
+        throw new UnauthorizedError(errorMessages.FORBIDDEN_ERR);
       } else {
         return Article.findByIdAndDelete(articleId)
           .then((articleToDelete) => res.send(articleToDelete))

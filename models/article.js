@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const errorMessages = require('../configurations/response-messages');
 
 const articleSchema = new mongoose.Schema({
   keyword: {
@@ -27,7 +28,7 @@ const articleSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => validator.isURL(v),
-      message: (props) => `${props.value} не является ссылкой`,
+      message: () => errorMessages.NOT_LINK_ERR,
     },
   },
   image: {
@@ -35,7 +36,7 @@ const articleSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => validator.isURL(v),
-      message: (props) => `${props.value} не является ссылкой`,
+      message: () => errorMessages.NOT_LINK_ERR,
     },
   },
   owner: {

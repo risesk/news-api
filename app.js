@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { celebrate, Joi, errors } = require('celebrate');
-const rateLimit = require('express-rate-limit');
+const limiter = require('./configurations/rate-limit');
 
 const router = require('./routes');
 const { login, createUser } = require('./controllers/users');
@@ -14,11 +14,6 @@ const errorHandler = require('./errors/errorHandler');
 
 const { PORT = 3000 } = process.env;
 const app = express();
-
-const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000,
-  max: 100,
-});
 
 app.use(limiter);
 

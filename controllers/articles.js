@@ -4,7 +4,8 @@ const UnauthorizedError = require('../errors/unauthorized-error');
 
 
 const getArticles = (req, res, next) => {
-  Article.find({})
+  const owner = req.user._id;
+  Article.find({ owner })
     .then((articles) => {
       if (articles.length === 0) {
         throw new NotFoundError('Ещё нет ни одной статьи');

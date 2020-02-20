@@ -67,8 +67,19 @@ const login = (req, res, next) => {
     });
 };
 
+const logout = (req, res) => {
+  res
+    .status(200)
+    .clearCookie('jwt', {
+      httpOnly: true,
+      sameSite: true,
+    })
+    .end();
+};
+
 module.exports = {
   getUser,
   createUser,
   login,
+  logout,
 };

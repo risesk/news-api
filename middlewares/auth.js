@@ -11,11 +11,11 @@ const secretkey = NODE_ENV === 'production' ? JWT_SECRET : DEV_SECRET;
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
 
-  if (!authorization || !authorization.startsWith('Bearer')) {
+  if (!req.cookies.jwt && (!authorization || !authorization.startsWith('Bearer'))) {
     throw new UnauthorizedError(errorMessages.NOT_AUTH_ERR);
   }
 
-  const token = authorization.replace('Bearer ', '');
+  const token = req.cookies.jwt || authorization.replace('Bearer ', '');
   let payload;
 
   try {
